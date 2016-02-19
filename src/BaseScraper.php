@@ -26,6 +26,8 @@ class BaseScraper
         $curl = curl_init($url);
         $headers = $this->getRequestHeaders($post, $JSON);
 
+        $this->curl_setopt($curl);
+
         if($this->curl_verbose) {
             curl_setopt($curl, CURLOPT_STDERR, fopen('php://output', 'w+'));
             curl_setopt($curl, CURLOPT_VERBOSE, 1);
@@ -51,6 +53,11 @@ class BaseScraper
 
         curl_close($curl);
         return $response;
+    }
+
+    protected function curl_setopt($ch)
+    {
+        // call curl_setupopt
     }
 
     public function getCookieFileName()
