@@ -9,7 +9,7 @@
       "email": "amado@projectivemotion.com"
     }
   ],
-  "autload": {
+  "autoload": {
     "psr-4": {
       "projectivemotion\\": "src/"
     }
