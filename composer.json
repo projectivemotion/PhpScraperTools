@@ -1,0 +1,17 @@
+{
+  "name": "projectivemotion/PhpScraperTools",
+  "description": "PHP Curl Wrapper. Written specifically for scraping purposes.",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Amado Martinez",
+      "email": "amado@projectivemotion.com"
+    }
+  ],
+  "autload": {
+    "psr-4": {
+      "projectivemotion\\": "src/"
+    }
+  }
+}
