@@ -16,7 +16,17 @@ class BaseScraper
     public      $curl_verbose   = false;
     public      $use_cache      = false;
 
-    protected   $cache_prefix =   '';
+    protected   $cache_prefix =   'scrape';
+
+    public function verboseOn()
+    {
+        $this->curl_verbose =   true;
+    }
+
+    public function verboseOff()
+    {
+        $this->curl_verbose =   false;
+    }
 
     protected function getCurl($url, $post = NULL, $JSON = false)
     {
