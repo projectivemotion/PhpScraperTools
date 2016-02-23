@@ -13,10 +13,21 @@ class BaseScraper
     protected   $domain = '';
     protected   $last_url =   '';
 
-    public      $curl_verbose   = false;
-    public      $use_cache      = false;
+    protected      $curl_verbose   = false;
+    protected      $use_cache      = false;
 
     protected   $cache_prefix =   'scrape';
+    protected   $cookie_name    =   'cookie.txt';
+
+    public function __construct()
+    {
+        $this->init();
+    }
+
+    public function init()
+    {
+        // initialize cookie_name, cache_prefix, etc..
+    }
 
     public function verboseOn()
     {
@@ -26,6 +37,21 @@ class BaseScraper
     public function verboseOff()
     {
         $this->curl_verbose =   false;
+    }
+
+    public function cacheOn()
+    {
+        $this->use_cache    =   true;
+    }
+
+    public function cacheOff()
+    {
+        $this->use_cache    =   false;
+    }
+
+    public function setCachePrefix($prefix)
+    {
+        $this->cache_prefix =   $prefix;
     }
 
     protected function getCurl($url, $post = NULL, $JSON = false)
@@ -72,7 +98,12 @@ class BaseScraper
 
     public function getCookieFileName()
     {
-        return 'cookie.txt';
+        return $this->cookie_name;
+    }
+
+    public function setCookieFileName($cookie_name)
+    {
+        $this->cookie_name = $cookie_name;
     }
 
     public function getCookieFilePath()
