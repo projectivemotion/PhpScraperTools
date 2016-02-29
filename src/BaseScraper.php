@@ -5,7 +5,7 @@
  * @author Amado Martinez <amado@projectivemotion.com>
  */
 
-namespace projectivemotion;
+namespace projectivemotion\PhpScraperTools;
 
 
 class BaseScraper
@@ -13,10 +13,11 @@ class BaseScraper
     protected   $domain = '';
     protected   $last_url =   '';
 
-    protected      $curl_verbose   = false;
-    protected      $use_cache      = false;
+    protected   $curl_verbose   = false;
+    protected   $use_cache      = false;
 
-    protected   $cache_prefix =   'scrape';
+    protected   $cache_dir      =   '';
+    protected   $cache_prefix   =   'scrape';
     protected   $cookie_name    =   'cookie.txt';
 
     public function __construct()
@@ -52,6 +53,11 @@ class BaseScraper
     public function setCachePrefix($prefix)
     {
         $this->cache_prefix =   $prefix;
+    }
+
+    public function setCacheDir($cache_dir)
+    {
+        $this->cache_dir = $cache_dir;
     }
 
     protected function getCurl($url, $post = NULL, $JSON = false)
@@ -113,7 +119,10 @@ class BaseScraper
 
     public function getCacheDir()
     {
-        return sys_get_temp_dir() . DIRECTORY_SEPARATOR;
+        if(!$this->cache_dir)
+            $this->setCacheDir(sys_get_temp_dir() . DIRECTORY_SEPARATOR);
+
+        return $this->cache_dir;
     }
 
     public function cache_get($url, $post = NULL, $JSON = false, $disable_cache = false)

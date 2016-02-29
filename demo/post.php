@@ -12,7 +12,7 @@ require '../src/BaseScraper.php';
  * 
  */
 
-$Scraper    =   new \projectivemotion\BaseScraper();
+$Scraper    =   new \projectivemotion\PhpScraperTools\BaseScraper();
 
 $response   =   $Scraper->cache_get('http://posttestserver.com/post.php?dir=projectivemotion/PhpScraperTools',
         // post data
