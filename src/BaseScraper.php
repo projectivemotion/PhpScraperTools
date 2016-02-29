@@ -10,6 +10,7 @@ namespace projectivemotion\PhpScraperTools;
 
 class BaseScraper
 {
+    protected   $protocol   =   'http';
     protected   $domain = '';
     protected   $last_url =   '';
 
@@ -60,10 +61,15 @@ class BaseScraper
         $this->cache_dir = $cache_dir;
     }
 
+    public function createURL($path, $post, $JSON)
+    {
+        return "$this->protocol://$this->domain$path";
+    }
+
     protected function getCurl($url, $post = NULL, $JSON = false)
     {
         if($url[0] == '/')
-            $url = "http://$this->domain$url";
+            $url = $this->createURL($url, $post, $JSON);
 
         $curl = curl_init($url);
         $headers = $this->getRequestHeaders($post, $JSON);
