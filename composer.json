@@ -11,7 +11,12 @@
   ],
   "autoload": {
     "psr-4": {
-      "projectivemotion\\PhpScraperTools\\": "src/"
+      "projectivemotion\\PhpScraperTools\\": "src/",
+      "projectivemotion\\PhpScraperTools\\Tests\\": "tests/"
     }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "5.0.*",
+    "mikey179/vfsStream": "~1"
   }
 }

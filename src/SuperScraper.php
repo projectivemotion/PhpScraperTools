@@ -42,7 +42,7 @@ class SuperScraper
         return "$this->protocol://$this->domain$path";
     }
 
-    protected function getCurl($url, $post = NULL, $JSON = false)
+    public function getCurl($url, $post = NULL, $JSON = false)
     {
         if($url[0] == '/')
             $url = $this->createURL($url, $post, $JSON);
@@ -53,7 +53,7 @@ class SuperScraper
         $this->curl_setopt($curl);
 
         if($this->curl_verbose) {
-            curl_setopt($curl, CURLOPT_STDERR, fopen('php://output', 'w+'));
+//            curl_setopt($curl, CURLOPT_STDERR, fopen('php://output', 'w+'));
             curl_setopt($curl, CURLOPT_VERBOSE, 1);
         }
         if($post){
@@ -66,7 +66,7 @@ class SuperScraper
         curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 
 
-        $cookiefile = $this->getCookieFilePath();
+        $cookiefile = $this->getCookieFileName();
         curl_setopt($curl, CURLOPT_COOKIEJAR, $cookiefile);
         curl_setopt($curl, CURLOPT_COOKIEFILE, $cookiefile);
 
@@ -94,9 +94,15 @@ class SuperScraper
         $this->cookie_name = $cookie_name;
     }
 
+    /**
+     *
+     * @deprecated
+     * @return string
+     */
     public function getCookieFilePath()
     {
-        return sys_get_temp_dir() . DIRECTORY_SEPARATOR . $this->getCookieFileName();
+        return $this->getCookieFileName();
+//        return sys_get_temp_dir() . DIRECTORY_SEPARATOR . $this->getCookieFileName();
     }
     
     public function getDefaultHeaders()
@@ -115,7 +121,7 @@ class SuperScraper
     /**
      * @return array
      */
-    protected function getRequestHeaders($post = NULL, $JSON = false)
+    public function getRequestHeaders($post = NULL, $JSON = false)
     {
         $headers = $this->getDefaultHeaders();
 
