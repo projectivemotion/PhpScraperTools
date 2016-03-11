@@ -1,5 +1,5 @@
 {
-  "name": "projectivemotion/PhpScraperTools",
+  "name": "projectivemotion/php-scraper-tools",
   "description": "PHP Curl Wrapper. Written specifically for scraping purposes.",
   "minimum-stability": "stable",
   "license": "MIT",
