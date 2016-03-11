@@ -1,5 +1,5 @@
 {
-  "name": "projectivemotion/PhpScraperTools",
+  "name": "projectivemotion/php-scraper-tools",
   "description": "PHP Curl Wrapper. Written specifically for scraping purposes.",
   "minimum-stability": "stable",
   "license": "MIT",
@@ -13,5 +13,14 @@
     "psr-4": {
       "projectivemotion\\PhpScraperTools\\": "src/"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "projectivemotion\\PhpScraperTools\\Tests\\": "tests/"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "5.0.*",
+    "mikey179/vfsStream": "~1"
   }
 }

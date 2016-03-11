@@ -31,7 +31,7 @@ class CacheScraper extends SuperScraper
 
     public function setCacheDir($cache_dir)
     {
-        $this->cache_dir = $cache_dir;
+        $this->cache_dir = rtrim($cache_dir, '/') . '/';
     }
 
     public function getCacheDir()
