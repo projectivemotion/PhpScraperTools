@@ -47,5 +47,10 @@ class SuperScraperTest extends \PHPUnit_Framework_TestCase
         $headers    =   implode("\n", $this->scraper->getRequestHeaders('{json}', true));
         $this->assertRegExp('#application/json#', $headers);
     }
+
+    public function testCookieFilename()
+    {
+        $this->assertEquals($this->scraper->getCookieFileName(), $this->scraper->getCookieFilePath());
+    }
     
 }

@@ -77,6 +77,18 @@ class CacheScraperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('hello world.', $cache_result);
     }
 
+    public function testCachePrefix()
+    {
+        $root   =   vfsStream::setup();
+        $this->scraper->cacheOn();
+        $this->scraper->setCacheDir($root->url());
+        $this->scraper->setCachePrefix('myprefix');
+        $this->scraper->cache_get('http://posttestserver.com/post.php?dir=projectivemotion/PhpScraperTools');
+        $cfile  =   $root->getChildren();
+
+        $this->assertStringStartsWith('myprefix', $cfile[0]->getName());
+    }
+
     public function testCacheDisable()
     {
         $root   =   vfsStream::setup();
@@ -95,5 +107,15 @@ class CacheScraperTest extends \PHPUnit_Framework_TestCase
     {
         $cacheDir   =   $this->scraper->getCacheDir();
         $this->assertFileExists($cacheDir);
+    }
+
+    public function testCacheVerbose()
+    {
+        $this->expectOutputRegex('/./');
+        $this->scraper->verboseOn();
+        $this->scraper->cacheOn();
+        $this->scraper->setCacheDir(vfsStream::setup()->url());
+        $this->scraper->cache_get('http://www.bing.com/');
+        $this->scraper->cache_get('http://www.bing.com/');
     }
 }
