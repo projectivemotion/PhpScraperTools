@@ -42,11 +42,16 @@ class CacheScraper extends SuperScraper
         return $this->cache_dir;
     }
 
+    public function cacheFilename($url, $post, $JSON)
+    {
+        return md5($url . print_r($post, true)) . ($JSON ? '.json ' : '.html');
+    }
+
     public function cache_get($url, $post = NULL, $JSON = false, $disable_cache = false)
     {
         if(!$this->use_cache || $disable_cache) return $this->getCurl($url, $post, $JSON);
 
-        $cachefile = $this->getCacheDir() . $this->cache_prefix . "-" .  md5($url . print_r($post, true)) . '.html';
+        $cachefile = $this->getCacheDir() . $this->cache_prefix . "-" . $this->cacheFilename($url, $post, $JSON);
         if(!file_exists($cachefile))
         {
             $content = $this->getCurl($url, $post, $JSON);
