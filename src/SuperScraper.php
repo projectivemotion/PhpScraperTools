@@ -90,7 +90,7 @@ class SuperScraper
     {
         return $this->getCurl($url, NULL);
     }
-    
+
     /**
      * Override to disable follow location, adding new opts, etc..
      *
