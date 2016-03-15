@@ -42,35 +42,32 @@ class SuperScraper
         return "$this->protocol://$this->domain$path";
     }
 
-    public function getCurl($url, $post = NULL, $JSON = false)
+    public function getCurl($url, $post = NULL, $isAjax = false)
     {
         if($url[0] == '/')
-            $url = $this->createURL($url, $post, $JSON);
+            $url = $this->createURL($url, $post, $isAjax);
 
         $curl = curl_init($url);
-        $headers = $this->getRequestHeaders($post, $JSON);
-
         $this->curl_setopt($curl);
 
         if($this->curl_verbose) {
 //            curl_setopt($curl, CURLOPT_STDERR, fopen('php://output', 'w+'));
             curl_setopt($curl, CURLOPT_VERBOSE, 1);
         }
+
         if($post){
             $string = is_string($post) ? $post : http_build_query($post);
             curl_setopt($curl, CURLOPT_POST, 1);
             curl_setopt($curl, CURLOPT_POSTFIELDS, $string);
         }
 
+        $headers = $this->getRequestHeaders($post, $isAjax);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-
 
         $cookiefile = $this->getCookieFileName();
         curl_setopt($curl, CURLOPT_COOKIEJAR, $cookiefile);
         curl_setopt($curl, CURLOPT_COOKIEFILE, $cookiefile);
 
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
         $response = curl_exec($curl);
 
         $this->last_url =   $url;
@@ -79,9 +76,30 @@ class SuperScraper
         return $response;
     }
 
+    public function Post($url, $data)
+    {
+        return $this->getCurl($url, $data);
+    }
+
+    public function PostAjax($url, $json_string)
+    {
+        return $this->getCurl($url, $json_string, TRUE);
+    }
+
+    public function Get($url)
+    {
+        return $this->getCurl($url, NULL);
+    }
+
+    /**
+     * Override to disable follow location, adding new opts, etc..
+     *
+     * @param $ch
+     */
     protected function curl_setopt($ch)
     {
-        // call curl_setupopt
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     }
 
     public function getCookieFileName()
@@ -121,13 +139,13 @@ class SuperScraper
     /**
      * @return array
      */
-    public function getRequestHeaders($post = NULL, $JSON = false)
+    public function getRequestHeaders($post = NULL, $isAjax = false)
     {
         $headers = $this->getDefaultHeaders();
 
         $is_payload =   is_string($post);
 
-        if($JSON)
+        if($isAjax)
         {
             $headers[]  =   'Accept: application/json, text/javascript, */*; q=0.01';
             $headers[]  =   'X-Requested-With: XMLHttpRequest';
