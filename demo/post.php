@@ -29,3 +29,20 @@ $response   =   $Scraper->cache_get('http://posttestserver.com/post.php?dir=proj
             'password'  =>  'batteryhorsestaple'));
 
 echo $response;
+
+
+if($argc < 2)
+{
+    return;
+}
+
+echo "\nTesting Proxy\n\n";
+$proxyinfo  =   explode(':', $argv[1]);
+
+// test a proxy
+$Scraper    =   new \projectivemotion\PhpScraperTools\SuperScraper();
+$Scraper->setProxy($proxyinfo[0], $proxyinfo[1]);
+
+$response   =   $Scraper->Get('https://wtfismyip.com/text');
+
+echo "Proxy IP: ", $response;

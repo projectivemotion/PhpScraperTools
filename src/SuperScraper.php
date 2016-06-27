@@ -13,6 +13,7 @@ class SuperScraper
     protected   $protocol   =   'http';
     protected   $domain = '';
     protected   $last_url =   '';
+    protected   $proxy  =   NULL;
 
     protected   $curl_verbose   = false;
     protected   $cookie_name    =   'cookie.txt';
@@ -53,6 +54,17 @@ class SuperScraper
         if($this->curl_verbose) {
 //            curl_setopt($curl, CURLOPT_STDERR, fopen('php://output', 'w+'));
             curl_setopt($curl, CURLOPT_VERBOSE, 1);
+        }
+
+        if($this->proxy)
+        {
+            $proxy  =  $this->proxy;
+            curl_setopt($curl, CURLOPT_PROXY, $proxy[0]);
+            curl_setopt($curl, CURLOPT_PROXYPORT, $proxy[1]);
+            if(!empty($proxy[2]))
+                curl_setopt($curl, CURLOPT_PROXYUSERPWD, $proxy[2]);
+
+            curl_setopt($curl, CURLOPT_PROXYTYPE, $proxy[3]);
         }
 
         if($post){
@@ -159,5 +171,10 @@ class SuperScraper
             $headers[]  =   'Referer: ' . $this->last_url;
 
         return $headers;
+    }
+
+    public function setProxy($proxy, $port, $userpass = '', $type = CURLPROXY_HTTP)
+    {
+        $this->proxy = array($proxy, $port, $userpass, $type);
     }
 }
