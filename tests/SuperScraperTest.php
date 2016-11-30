@@ -52,5 +52,13 @@ class SuperScraperTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals($this->scraper->getCookieFileName(), $this->scraper->getCookieFilePath());
     }
-    
+
+    public function testInfo()
+    {
+        $this->scraper->getCurl('http://php.net/manual/en/function.curl-getinfo.php');
+        $info = $this->scraper->getInfo();
+
+        $this->assertEquals(200, $info['http_code']);
+        return $info;
+    }
 }

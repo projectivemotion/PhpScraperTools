@@ -17,6 +17,7 @@ class SuperScraper
 
     protected   $curl_verbose   = false;
     protected   $cookie_name    =   'cookie.txt';
+    protected   $response_info  =   null;
 
     public function __construct()
     {
@@ -80,12 +81,19 @@ class SuperScraper
         curl_setopt($curl, CURLOPT_COOKIEJAR, $cookiefile);
         curl_setopt($curl, CURLOPT_COOKIEFILE, $cookiefile);
 
+
         $response = curl_exec($curl);
 
+        $this->response_info    =   curl_getinfo($curl);
         $this->last_url =   $url;
 
         curl_close($curl);
         return $response;
+    }
+
+    public function getInfo()
+    {
+        return $this->response_info;
     }
 
     public function Post($url, $data)
